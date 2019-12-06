@@ -272,6 +272,7 @@ def create_project():
         # the validation will take care of the slug
         if not form.id.data:
             form.id.data = form.name.data
+            currency_choices = ["USD", "EUR"]
         if form.validate():
             # save the object in the db
             project = form.save()
@@ -315,7 +316,9 @@ def create_project():
             )
             return redirect(url_for(".list_bills", project_id=project.id))
 
-    return render_template("create_project.html", form=form)
+    return render_template(
+        "create_project.html", form=form, currency_choices=currency_choices
+    )
 
 
 @main.route("/password-reminder", methods=["GET", "POST"])
@@ -375,6 +378,7 @@ def reset_password():
 @main.route("/<project_id>/edit", methods=["GET", "POST"])
 def edit_project():
     edit_form = EditProjectForm()
+    currency_choices = ["USD", "EUR"]
     if request.method == "POST":
         if edit_form.validate():
             project = edit_form.update(g.project)
@@ -387,7 +391,10 @@ def edit_project():
         edit_form.contact_email.data = g.project.contact_email
 
     return render_template(
-        "edit_project.html", edit_form=edit_form, current_view="edit_project"
+        "edit_project.html",
+        edit_form=edit_form,
+        current_view="edit_project",
+        currency_choices=currency_choices,
     )
 
 
