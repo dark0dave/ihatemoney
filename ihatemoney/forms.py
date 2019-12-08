@@ -88,7 +88,7 @@ class EditProjectForm(FlaskForm):
     password = StringField(_("Private code"), validators=[DataRequired()])
     contact_email = StringField(_("Email"), validators=[DataRequired(), Email()])
     default_currency = SelectField(
-        _("Default Currency"), choices=currency_choices, validators=[DataRequired()]
+        _("Default Currency"), choices=[('USD','USD'), ('EUR','EUR')], validators=[DataRequired()]
     )
 
     def save(self):
